@@ -41,14 +41,14 @@ const routeRequest = (lambdaEvent:any) => {
         console.log('body')
 
         console.log(body)
-        const construct = JSON.parse(body.Construct);
+        const construct = JSON.parse(body.params.Construct);
         console.log('construct')
 
         console.log(construct)
-        const bucketName = body.BucketName
+        const bucketName = body.params.BucketName
         console.log('bucket name')
         console.log(bucketName);
-        const name = body.Name
+        const name = body.params.Name
         const bucketMade = S3BucketLambdaStack.generateS3Bucket(construct, bucketName)
         const thisStatement = JSON.stringify(inspect(bucketMade));
 
