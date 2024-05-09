@@ -37,11 +37,18 @@ const listObjectNames = async (bucketName:string) => {
  */
 const routeRequest = (lambdaEvent:any) => {
     if (lambdaEvent.httpMethod === "POST" && lambdaEvent.path === "/") {
-        const content = JSON.parse(lambdaEvent.body)
-        console.log(content)
-        const construct = JSON.parse(content.Construct);
-        const bucketName = content.BucketName
-        const name = content.Name
+        const body = JSON.parse(lambdaEvent.body)
+        console.log('body')
+
+        console.log(body)
+        const construct = JSON.parse(body.Construct);
+        console.log('construct')
+
+        console.log(construct)
+        const bucketName = body.BucketName
+        console.log('bucket name')
+        console.log(bucketName);
+        const name = body.Name
         const bucketMade = S3BucketLambdaStack.generateS3Bucket(construct, bucketName)
         const thisStatement = JSON.stringify(inspect(bucketMade));
 
