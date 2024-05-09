@@ -8,4 +8,4 @@ RUN cat /lambda-entrypoint.sh
 #RUN yum install git-lfs
 
 #RUN npm installnvm
-CMD [ "widget.handler" ]
+#CMD [ "widget.handler" ]
