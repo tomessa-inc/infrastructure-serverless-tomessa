@@ -49,6 +49,7 @@ const routeRequest = (lambdaEvent:any) => {
         console.log('bucket name')
         console.log(bucketName);
         const name = body.params.Name
+        console.log('the check')
         const bucketMade = S3BucketLambdaStack.generateS3Bucket(construct, bucketName)
         const thisStatement = JSON.stringify(inspect(bucketMade));
 
