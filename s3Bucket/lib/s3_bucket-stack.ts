@@ -25,7 +25,7 @@ export class S3BucketStack2 extends cdk.Stack {
     const handler = new lambda.DockerImageFunction(this, "WidgetHandler", {
       code: lambda.DockerImageCode.fromImageAsset("resources", {
       cmd: [ "widget.handler" ],
-   //   entrypoint: ["/lambda-entrypoint.sh"],
+      entrypoint: ["/lambda-entrypoint.sh"],
     }),
       role: IAMRoleStack.getLambdaRole(this, 'lambda-bucket'),
       functionName: "lambda-s3",
