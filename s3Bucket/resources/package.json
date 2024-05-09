@@ -1,0 +1,15 @@
+{
+  "name": "resources",
+  "version": "1.0.0",
+  "main": "s3-bucket-stack.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "types": "./s3-bucket-stack.d.ts",
+  "description": "",
+  "dependencies": {
+    "aws-cdk-lib": "^2.140.0"
+  }
+}
