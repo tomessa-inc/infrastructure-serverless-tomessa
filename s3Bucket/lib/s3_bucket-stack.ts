@@ -29,7 +29,7 @@ export class S3BucketStack2 extends cdk.Stack {
     }),
       role: IAMRoleStack.getLambdaRole(this, 'lambda-bucket'),
       functionName: "lambda-s3",
-      architecture: Architecture.ARM_64
+      architecture: Architecture.X86_64
     });
 
 
