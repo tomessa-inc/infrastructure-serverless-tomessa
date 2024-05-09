@@ -6,6 +6,7 @@ COPY . ${LAMBDA_TASK_ROOT}/
 #RUN dnf install -y git-lfs
 RUN ls -al
 RUN cat /lambda-entrypoint.sh
+RUN npm install aws-cdk-lib
 #RUN yum install git-lfs
 
 #RUN npm installnvm
