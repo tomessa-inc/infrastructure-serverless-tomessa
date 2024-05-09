@@ -1,9 +1,9 @@
 FROM amazon/aws-lambda-nodejs:latest
 LABEL maintainer="Tom Cruickshank"
-RUN export DOCKER_DEFAULT_PLATFORM=linux/arm64
+#RUN export DOCKER_DEFAULT_PLATFORM=linux/arm64
 COPY . ${LAMBDA_TASK_ROOT}/
-RUN dnf git-lfs
-#RUN yum install git-lfs
+RUN dnf install git-lfs
+RUN yum install git-lfs
 
 #RUN npm installnvm
 CMD [ "widget.handler" ]
