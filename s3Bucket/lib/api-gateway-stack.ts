@@ -37,7 +37,8 @@ export class ApiGatewayStack extends cdk.Stack {
     private generateLambdaIntegration() {
 
         this._lambdaIntegration = new apigateway.LambdaIntegration(LambdaStack.getDockerImageFunction(this, 'lambda-integration'), {
-            requestTemplates: {"application/json": '{ "statusCode": "200" }'}
+            requestTemplates: {"application/json": '{ "statusCode": "200" }'},
+
         });
     }
 

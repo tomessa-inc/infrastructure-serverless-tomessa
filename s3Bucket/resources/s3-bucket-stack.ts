@@ -8,6 +8,7 @@ const apiGatewayRoleArn = cdk.Fn.importValue("apiGatewayRoleArn");
 export class S3BucketLambdaStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
+
     }
 
     public static getLambdaRole(construct:Construct, name:string) {
@@ -21,8 +22,8 @@ export class S3BucketLambdaStack extends cdk.Stack {
         );
     }
 
-    public generateS3Bucket(construct:Construct, bucketName:string) {
-       return new s3.Bucket(construct, `s3-bucket-${bucketName}`, {
+    public generateS3Bucket(bucketName:string) {
+       return new s3.Bucket(this, `s3-bucket-${bucketName}`, {
             bucketName: bucketName,
             publicReadAccess: false,
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,

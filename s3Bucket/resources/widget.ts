@@ -35,7 +35,6 @@ const listObjectNames = async (bucketName:string) => {
 
 
 const parseRequest = (lambdaEvent:any)  => {
-    console.log('start request')
     if (lambdaEvent.httpMethod !== "POST") {
         return buildResponseBody(500, "Protocol not supported" );
     }
@@ -49,16 +48,14 @@ const parseRequest = (lambdaEvent:any)  => {
     if (  identifier === "") {
         return buildResponseBody(500, "Identifier is missing" );
     }
-    console.log('next part')
 
-    console.log(lambdaEvent);
     switch(lambdaEvent.path) {
         case "/s3-service":
             const bucketName = body.params.BucketName
             const s3Stack = new S3BucketLambdaStack(app, 'S3BucketStack', {
                 env: {region: region, account: account}
             });
-            s3Stack.generateS3Bucket(app, bucketName)
+            s3Stack.generateS3Bucket(bucketName)
             break;
     }
 
