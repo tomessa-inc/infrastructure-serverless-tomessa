@@ -17,7 +17,7 @@ export class ApiGatewayStack extends cdk.Stack {
     private async initialize() {
         this.generateLambdaIntegration
         this.generateRestApi();
-        await this.generateResource("/s3Service");
+        await this.generateResource("/test");
         this.generateMethod();
     }
 
@@ -36,7 +36,7 @@ export class ApiGatewayStack extends cdk.Stack {
     }
 
     private async generateResource(path:string) {
-        this._apiResource = this._restApi.root.addResource("/s3Service", {
+        this._apiResource = this._restApi.root.addResource(`${path}`, {
             defaultIntegration: this._lambdaIntegration
         });
         this.generateMethod();
