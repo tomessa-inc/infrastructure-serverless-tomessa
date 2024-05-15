@@ -3,6 +3,7 @@ import { Construct } from 'constructs';
 import * as apigateway from "aws-cdk-lib/aws-apigateway";
 import {LambdaStack} from "./lambda-stack";
 import {CfnOutput} from "aws-cdk-lib";
+import {IAMRoleStack} from "./iam-role-stack";
 
 export class ApiGatewayStack extends cdk.Stack {
     private _restApi: apigateway.RestApi
@@ -28,8 +29,8 @@ export class ApiGatewayStack extends cdk.Stack {
     private generateRestApi() {
         this._restApi = new apigateway.RestApi(this, "rest-api-cdk", {
             restApiName: "CDK Service",
-            description: "This service generate resources through AWS CDK."
-
+            description: "This service generate resources through AWS CDK.",
+            cloudWatchRole: true,
         });
     }
 
