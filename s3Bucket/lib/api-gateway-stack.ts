@@ -18,7 +18,7 @@ export class ApiGatewayStack extends cdk.Stack {
         this.generateLambdaIntegration
         this.generateRestApi();
         this.generateRootMethod();
-        await this.generateResource("s3");
+        await this.generateResource("s3-service");
         this.generateMethod();
     }
 
