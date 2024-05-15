@@ -1,11 +1,6 @@
 import {ListObjectsCommand, S3Client} from "@aws-sdk/client-s3";
 import {S3BucketLambdaStack} from "./s3-bucket-stack";
 import * as cdk from "aws-cdk-lib";
-import {CdkToolkit} from 'aws-cdk/lib/cdk-toolkit';
-import {RequireApproval} from "aws-cdk/lib/diff";
-import {HotswapMode} from "aws-cdk/lib/api/hotswap/common";
-import {StackSelector} from "aws-cdk/lib/api/cxapp/cloud-assembly";
-
 const execa = require('execa')
 
 const app = new cdk.App();
