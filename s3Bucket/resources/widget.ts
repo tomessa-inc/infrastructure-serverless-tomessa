@@ -53,7 +53,7 @@ const parseRequest = (lambdaEvent:any)  => {
 
     console.log(lambdaEvent);
     switch(lambdaEvent.path) {
-        case "/s3Service":
+        case "/s3-service":
             const bucketName = body.params.BucketName
             const s3Stack = new S3BucketLambdaStack(app, 'S3BucketStack', {
                 env: {region: region, account: account}
