@@ -1,4 +1,3 @@
-import {ListObjectsCommand, S3Client} from "@aws-sdk/client-s3";
 import {S3BucketLambdaStack} from "./s3-bucket-stack";
 import * as cdk from "aws-cdk-lib";
 const execa = require('execa')
@@ -6,28 +5,7 @@ const execa = require('execa')
 const app = new cdk.App();
 // The following code uses the AWS SDK for JavaScript (v3).
 // For more information, see https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html.
-const s3Client = new S3Client({});
 
-/**
- * @param {string} bucketName
- */
-const listObjectNames = async (bucketName:string) => {
-    const command = new ListObjectsCommand({ Bucket: bucketName });
-    const { Contents } = await s3Client.send(command);
-
-    if (Contents === undefined) {
-        return;
-    }
-    if (!Contents.length) {
-        const err = new Error(`No objects found in ${bucketName}`);
-        err.name = "EmptyBucketError";
-        throw err;
-    }
-
-    // Map the response to a list of strings representing the keys of the Amazon Simple Storage Service (Amazon S3) objects.
-    // Filter out any objects that don't have keys.
-    return Contents.map(({ Key }) => Key).filter((k) => !!k);
-};
 
 /**
  * @typedef {{ httpMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH', path: string }} LambdaEvent
@@ -109,24 +87,6 @@ const routeRequest = (lambdaEvent:any) => {
     error.name = "UnimplementedHTTPMethodError";
     throw error;
 }; */
-
-const handleGetRequest = async () => {
-
-   // S3BucketStack.generateS3Bucket('')
-
-/*    if (process.env.BUCKET === "undefined") {
-        const err = new Error(`No bucket name provided.`);
-        err.name = "MissingBucketName";
-        throw err;
-    }
-
-    if (process.env.BUCKET === undefined) {
-        return;
-    } */
-    const objects = await listObjectNames("image-caching-frontenddistributiontos3s3bucket3a1-jdzpp40gc4gh");
-
-    return buildResponseBody(200, objects);
-};
 
 /**
  * @typedef {{statusCode: number, body: string, headers: Record<string, string> }} LambdaResponse
