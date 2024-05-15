@@ -36,7 +36,7 @@ export class ApiGatewayStack extends cdk.Stack {
     }
 
     private async generateResource(path:string) {
-        this._apiResource = this._restApi.root.addResource(`test`, {
+        this._apiResource = this._restApi.root.addResource(`testing`, {
             defaultIntegration: this._lambdaIntegration
         });
         this.generateMethod();
