@@ -34,17 +34,10 @@ export class ApiGatewayStack extends cdk.Stack {
     }
 
     private generateLambdaIntegration() {
-        const boo = LambdaStack.getDockerImageFunction(this, 'lambda-integration')
-        console.log('boo')
-        console.log(boo)
-        this._lambdaIntegration = new apigateway.LambdaIntegration(boo, {
+
+        this._lambdaIntegration = new apigateway.LambdaIntegration(LambdaStack.getDockerImageFunction(this, 'lambda-integration'), {
             requestTemplates: {"application/json": '{ "statusCode": "200" }'}
         });
-        new CfnOutput(this, "testFunction", {
-            value: boo.functionArn,
-            exportName: "testFunction",
-        });
-
     }
 
     private generateRootMethod() {
