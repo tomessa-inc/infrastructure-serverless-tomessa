@@ -52,7 +52,7 @@ export class IAMRoleStack extends cdk.Stack {
   }
 
   private _generateAPIGatewayRole() {
-    this._apiGatewayRole = new cdk.aws_iam.Role(this, "lambda-role", {
+    this._apiGatewayRole = new cdk.aws_iam.Role(this, "apigateway-role", {
       roleName: "apigateway-role",
       assumedBy: new cdk.aws_iam.ServicePrincipal("apigateway.amazonaws.com"),
     });
