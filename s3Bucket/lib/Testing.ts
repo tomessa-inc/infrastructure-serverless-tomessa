@@ -5,7 +5,6 @@ import * as s3 from "aws-cdk-lib/aws-s3";
 //import fetch from 'node-fetch';
 import axios from 'axios';
 import { inspect } from 'util' // or directly
-const circle = require('circular-json')
 
 const apiGatewayRoleArn = cdk.Fn.importValue("apiGatewayRoleArn");
 
