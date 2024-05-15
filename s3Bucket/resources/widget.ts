@@ -59,7 +59,8 @@ const parseRequest = (lambdaEvent:any)  => {
             break;
     }
 
-    return;
+
+    return buildResponseBody(200, "The bucket was created successfully" );
 }
 
 /**
