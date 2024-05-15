@@ -16,7 +16,7 @@ export class ApiGatewayStack extends cdk.Stack {
     }
 
     private async initialize() {
-        this.generateLambdaIntegration
+        this.generateLambdaIntegration();
         this.generateRestApi();
         this.generateRootMethod();
         await this.generateResource("s3-service");
@@ -26,7 +26,7 @@ export class ApiGatewayStack extends cdk.Stack {
     }
 
     private generateRestApi() {
-        this._restApi = new apigateway.RestApi(this, "widgets-api", {
+        this._restApi = new apigateway.RestApi(this, "rest-api-cdk", {
             restApiName: "CDK Service",
             description: "This service generate resources through AWS CDK."
 
@@ -35,6 +35,8 @@ export class ApiGatewayStack extends cdk.Stack {
 
     private generateLambdaIntegration() {
         const boo = LambdaStack.getDockerImageFunction(this, 'lambda-integration')
+        console.log('boo')
+        console.log(boo)
         this._lambdaIntegration = new apigateway.LambdaIntegration(boo, {
             requestTemplates: {"application/json": '{ "statusCode": "200" }'}
         });
