@@ -44,7 +44,11 @@ export class LambdaStack extends cdk.Stack {
         });
     }
 
-    static getDockerImageFunction(construct:Construct, id:string) {
-       return lambda.DockerImageFunction.fromFunctionArn(construct, `SourceDockerImageFunction-${id}`, dockerImageFunctionArn)
+    public static getDockerImageFunction(construct:Construct, id:string) {
+    //   return lambda.DockerImageFunction.fromFunctionArn(construct, `SourceDockerImageFunction-${id}`, dockerImageFunctionArn)
+        return lambda.DockerImageFunction.fromFunctionAttributes(construct, `SourceDockerImageFunction-${id}`, {
+            functionArn: dockerImageFunctionArn,
+            role: IAMRoleStack.getLambdaRole(construct, 'lambda-bucket-image'),
+        })
     }
 }
