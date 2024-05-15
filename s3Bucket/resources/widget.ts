@@ -1,7 +1,8 @@
 import { S3Client, ListObjectsCommand } from "@aws-sdk/client-s3";
 import {S3BucketLambdaStack} from "./s3-bucket-stack";
-import {inspect} from "util";
-const circle = require('circular-json')
+import * as cdk from "aws-cdk-lib";
+import {S3BucketStack2} from "../lib/s3_bucket-stack";
+const app = new cdk.App();
 
 // The following code uses the AWS SDK for JavaScript (v3).
 // For more information, see https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html.
@@ -32,11 +33,40 @@ const listObjectNames = async (bucketName:string) => {
  * @typedef {{ httpMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH', path: string }} LambdaEvent
  */
 
+
+const parseRequest = (lambdaEvent:any)  => {
+    if (lambdaEvent.httpMethod !== "POST") {
+        return buildResponseBody(500, "Protocol not supported" );
+    }
+
+    const body = JSON.parse(lambdaEvent.body)
+    const account = body.params.account
+    const region = body.params.region ?? "us-east-1"
+    const identifier = body.params.identifier
+
+
+    if (  identifier === "") {
+        return buildResponseBody(500, "Identifier is missing" );
+    }
+    switch(lambdaEvent.path) {
+        case "/s3Service":
+            const bucketName = body.params.BucketName
+            const s3Stack = new S3BucketLambdaStack(app, 'S3BucketStack', {
+                env: {region: region, account: account}
+            });
+            s3Stack.generateS3Bucket(app, bucketName)
+            break;
+    }
+
+    return;
+}
+
 /**
  *
  * @param {LambdaEvent} lambdaEvent
- */
+ *//*
 const routeRequest = (lambdaEvent:any) => {
+
     if (lambdaEvent.httpMethod === "POST" && lambdaEvent.path === "/") {
         const body = JSON.parse(lambdaEvent.body)
         console.log('body')
@@ -68,7 +98,7 @@ const routeRequest = (lambdaEvent:any) => {
     );
     error.name = "UnimplementedHTTPMethodError";
     throw error;
-};
+}; */
 
 const handleGetRequest = async () => {
 
@@ -112,9 +142,10 @@ const buildResponseBody = (status:any, body:any, headers = {}) => {
  *
  * @param {LambdaEvent} event
  */
-export const handler = async (event:any) => {
+export const handler = async (event:Event) => {
     try {
-        return await routeRequest(event);
+
+        return await parseRequest(event);
     } catch (err) {
         console.error(err);
 

@@ -21,7 +21,7 @@ export class S3BucketLambdaStack extends cdk.Stack {
         );
     }
 
-    public static  generateS3Bucket(construct:Construct, bucketName:string) {
+    public generateS3Bucket(construct:Construct, bucketName:string) {
        return new s3.Bucket(construct, `s3-bucket-${bucketName}`, {
             bucketName: bucketName,
             publicReadAccess: false,

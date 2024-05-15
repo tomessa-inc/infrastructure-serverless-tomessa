@@ -46,6 +46,6 @@ export class S3BucketStack2 extends cdk.Stack {
       requestTemplates: { "application/json": '{ "statusCode": "200" }' }
     });
 
-    api.root.addMethod("POST", getWidgetsIntegration); // GET /
+      api.root.addMethod("POST", getWidgetsIntegration); // GET /
   }
 }
