@@ -17,6 +17,7 @@ export class ApiGatewayStack extends cdk.Stack {
     private async initialize() {
         this.generateLambdaIntegration
         this.generateRestApi();
+        this.generateRootMethod();
         await this.generateResource("/test");
         this.generateMethod();
     }
@@ -35,14 +36,18 @@ export class ApiGatewayStack extends cdk.Stack {
         });
     }
 
+    private generateRootMethod() {
+        this._restApi.root.addMethod("POST",  this._lambdaIntegration); // GET
+    }
+
     private async generateResource(path:string) {
-        this._apiResource = this._restApi.root.addResource(`testrtesting`, {
+        this._apiResource = this._restApi.root.addResource(`/testrtesting`, {
             defaultIntegration: this._lambdaIntegration
         });
     ///    this.generateMethod();
     }
 
     private generateMethod() {
-       // this._apiResource.addMethod("POST",  this._lambdaIntegration); // GET
+        this._apiResource.addMethod("POST",  this._lambdaIntegration); // GET
     }
 }
