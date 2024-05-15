@@ -3,7 +3,6 @@ import { Construct } from 'constructs';
 import {CfnOutput, RemovalPolicy} from "aws-cdk-lib";
 import * as s3 from "aws-cdk-lib/aws-s3";
 
-const apiGatewayRoleArn = cdk.Fn.importValue("apiGatewayRoleArn");
 
 export class S3BucketLambdaStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -11,19 +10,8 @@ export class S3BucketLambdaStack extends cdk.Stack {
 
     }
 
-    public static getLambdaRole(construct:Construct, name:string) {
-        return cdk.aws_iam.Role.fromRoleArn(
-            construct,
-            `${name}-lambda-role`,
-            apiGatewayRoleArn,
-            {
-                mutable: false,
-            },
-        );
-    }
-
     public generateS3Bucket(bucketName:string) {
-       return new s3.Bucket(this, `s3-bucket-${bucketName}`, {
+        new s3.Bucket(this, `s3-bucket-${bucketName}`, {
             bucketName: bucketName,
             publicReadAccess: false,
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
