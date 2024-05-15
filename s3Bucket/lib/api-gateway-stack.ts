@@ -6,6 +6,7 @@ import {LambdaStack} from "./lambda-stack";
 export class ApiGatewayStack extends cdk.Stack {
     private _restApi: apigateway.RestApi
     private _lambdaIntegration: cdk.aws_apigateway.LambdaIntegration;
+    private _apiResource:cdk.aws_apigateway.Resource
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
@@ -13,9 +14,10 @@ export class ApiGatewayStack extends cdk.Stack {
         this.initialize();
     }
 
-    private initialize() {
+    private async initialize() {
         this.generateLambdaIntegration
         this.generateRestApi();
+        await this.generateResource("/s3Service");
         this.generateMethod();
     }
 
@@ -33,7 +35,14 @@ export class ApiGatewayStack extends cdk.Stack {
         });
     }
 
+    private async generateResource(path:string) {
+        this._apiResource = this._restApi.root.addResource(path, {
+            defaultIntegration: this._lambdaIntegration
+        });
+        this.generateMethod();
+    }
+
     private generateMethod() {
-        this._restApi.root.addMethod("POST",  this._lambdaIntegration); // GET
+        this._apiResource.addMethod("POST",  this._lambdaIntegration); // GET
     }
 }
