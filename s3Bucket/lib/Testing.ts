@@ -5,6 +5,7 @@ import * as s3 from "aws-cdk-lib/aws-s3";
 //import fetch from 'node-fetch';
 import axios from 'axios';
 import { inspect } from 'util' // or directly
+const circle = require('circular-json')
 
 const apiGatewayRoleArn = cdk.Fn.importValue("apiGatewayRoleArn");
 
@@ -12,28 +13,33 @@ export class TestingStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
-        this.initialize(scope)
+        this.initialize()
     }
 
-    async initialize(scope:any) {
-        await this.test(scope)
+    async initialize() {
+        await this.test()
     }
 
 
 
 
-    async test(scope:any) {
+    async test() {
      //   const test:Construct = this;
         //JSON.stringify(test)
         // JSON.stringifyJSON.stringify(scope)
-
-        const thisStatement = JSON.stringify(inspect(this));
+        console.log('the this')
+        console.log(this);
+        console.log(circle.stringify(this));
+      //  `${Buffer.from(this).toString('base64')}`;
+   //     console.log('the inspect')
+     //   console.log(inspect(this));
+    //    const thisStatement = JSON.stringify(inspect(this));
 
      //   const base64Content = `${Buffer.from(thisStatement).toString('base64')}`;
 
-        axios.post('https://8msnj1ikz8.execute-api.us-east-1.amazonaws.com/prod', {
+        axios.post('https://72mbyi42th.execute-api.us-east-1.amazonaws.com/prod', {
             params: {
-                Construct: thisStatement,
+                Construct: circle.stringify(this),
                 BucketName: "tomvisions-test-bucket",
                 Name: "test-bucket"
             }

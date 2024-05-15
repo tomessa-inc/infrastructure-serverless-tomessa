@@ -1,6 +1,7 @@
 import { S3Client, ListObjectsCommand } from "@aws-sdk/client-s3";
 import {S3BucketLambdaStack} from "./s3-bucket-stack";
 import {inspect} from "util";
+const circle = require('circular-json')
 
 // The following code uses the AWS SDK for JavaScript (v3).
 // For more information, see https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html.
@@ -41,7 +42,10 @@ const routeRequest = (lambdaEvent:any) => {
         console.log('body')
 
         console.log(body)
-        const construct = JSON.parse(body.params.Construct);
+
+
+   //     const construct = JSON.parse(body.params.Construct);
+        const construct =  JSON.parse(body.params.Construct);
         console.log('construct')
 
         console.log(construct)

@@ -10,6 +10,7 @@
   "types": "./s3-bucket-stack.d.ts",
   "description": "",
   "dependencies": {
-    "aws-cdk-lib": "^2.140.0"
+    "aws-cdk-lib": "^2.140.0",
+    "circular-json": "^0.5.9"
   }
 }
