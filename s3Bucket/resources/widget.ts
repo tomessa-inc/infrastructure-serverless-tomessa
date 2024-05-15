@@ -1,9 +1,14 @@
-import { S3Client, ListObjectsCommand } from "@aws-sdk/client-s3";
+import {ListObjectsCommand, S3Client} from "@aws-sdk/client-s3";
 import {S3BucketLambdaStack} from "./s3-bucket-stack";
 import * as cdk from "aws-cdk-lib";
-import {S3BucketStack2} from "../lib/s3_bucket-stack";
-const app = new cdk.App();
+import {CdkToolkit} from 'aws-cdk/lib/cdk-toolkit';
+import {RequireApproval} from "aws-cdk/lib/diff";
+import {HotswapMode} from "aws-cdk/lib/api/hotswap/common";
+import {StackSelector} from "aws-cdk/lib/api/cxapp/cloud-assembly";
 
+const execa = require('execa')
+
+const app = new cdk.App();
 // The following code uses the AWS SDK for JavaScript (v3).
 // For more information, see https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html.
 const s3Client = new S3Client({});
@@ -34,7 +39,7 @@ const listObjectNames = async (bucketName:string) => {
  */
 
 
-const parseRequest = (lambdaEvent:any)  => {
+const parseRequest = async (lambdaEvent:any)  => {
     if (lambdaEvent.httpMethod !== "POST") {
         return buildResponseBody(500, "Protocol not supported" );
     }
@@ -56,7 +61,14 @@ const parseRequest = (lambdaEvent:any)  => {
             const s3Stack = new S3BucketLambdaStack(app, 'S3BucketStack', {
                 env: {region: region, account: account}
             });
-            s3Stack.generateS3Bucket(bucketName)
+            s3Stack.generateS3Bucket(bucketName);
+
+            await execa('cdk', ['deploy', 'S3BucketStack', '--require-approval=never'], {
+                stdout: process.stdout,
+                stderr: process.stderr,
+            });
+
+ //           s3Stack.generateS3Bucket(bucketName)
             break;
     }
 
