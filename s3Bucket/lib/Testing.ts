@@ -27,9 +27,7 @@ export class TestingStack extends cdk.Stack {
      //   const test:Construct = this;
         //JSON.stringify(test)
         // JSON.stringifyJSON.stringify(scope)
-        console.log('the this')
-        console.log(this);
-        console.log(circle.stringify(this));
+
       //  `${Buffer.from(this).toString('base64')}`;
    //     console.log('the inspect')
      //   console.log(inspect(this));
@@ -37,11 +35,12 @@ export class TestingStack extends cdk.Stack {
 
      //   const base64Content = `${Buffer.from(thisStatement).toString('base64')}`;
 
-        axios.post('https://72mbyi42th.execute-api.us-east-1.amazonaws.com/prod', {
+        axios.post('https://i0hn6stovk.execute-api.us-east-1.amazonaws.com/prod/s3-service', {
             params: {
-                Construct: circle.stringify(this),
                 BucketName: "tomvisions-test-bucket",
-                Name: "test-bucket"
+                identifier: "test-bucket",
+                region: "us-east-1",
+                account: "955552760689"
             }
         })
             .then(function (response) {
