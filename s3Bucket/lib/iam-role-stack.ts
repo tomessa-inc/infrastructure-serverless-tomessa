@@ -2,10 +2,10 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import {CfnOutput} from "aws-cdk-lib";
 
-const apiGatewayRoleArn = cdk.Fn.importValue("apiGatewayRoleArn");
+const lambdaRoleArn = cdk.Fn.importValue("lambdaRoleArn");
 
 export class IAMRoleStack extends cdk.Stack {
-  private _apigatewayRole:  cdk.aws_iam.Role;
+  private _lambdaRole:  cdk.aws_iam.Role;
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
     this._initialize()
@@ -16,7 +16,7 @@ export class IAMRoleStack extends cdk.Stack {
     return cdk.aws_iam.Role.fromRoleArn(
         construct,
         `${name}-lambda-role`,
-        apiGatewayRoleArn,
+        lambdaRoleArn,
         {
           mutable: false,
         },
@@ -24,14 +24,14 @@ export class IAMRoleStack extends cdk.Stack {
   }
 
   private _generateLambdaRole() {
-    this._apigatewayRole = new cdk.aws_iam.Role(this, "lambda-role", {
+    this._lambdaRole = new cdk.aws_iam.Role(this, "lambda-role", {
       roleName: "lambda-role",
       assumedBy: new cdk.aws_iam.ServicePrincipal("lambda.amazonaws.com"),
     });
   }
 
   private _generateLamdaPolicy() {
-    this._apigatewayRole.addManagedPolicy({
+    this._lambdaRole.addManagedPolicy({
       managedPolicyArn: "arn:aws:iam::aws:policy/AdministratorAccess",
     });
   }
@@ -43,10 +43,9 @@ export class IAMRoleStack extends cdk.Stack {
   }
 
   private _generateOutputs() {
-    new CfnOutput(this, "cicdRoleArn", {
-      value: this._apigatewayRole.roleArn,
-      exportName: "apiGatewayRoleArn",
+    new CfnOutput(this, "lambdaRoleArn", {
+      value: this._lambdaRole.roleArn,
+      exportName: "lambdaRoleArn",
     });
   }
-
 }
