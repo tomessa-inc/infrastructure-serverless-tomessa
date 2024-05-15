@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as apigateway from "aws-cdk-lib/aws-apigateway";
 import {LambdaStack} from "./lambda-stack";
+import {CfnOutput} from "aws-cdk-lib";
 
 export class ApiGatewayStack extends cdk.Stack {
     private _restApi: apigateway.RestApi
@@ -20,6 +21,8 @@ export class ApiGatewayStack extends cdk.Stack {
         this.generateRootMethod();
         await this.generateResource("s3-service");
       //  this.generateMethod();
+
+
     }
 
     private generateRestApi() {
@@ -31,9 +34,15 @@ export class ApiGatewayStack extends cdk.Stack {
     }
 
     private generateLambdaIntegration() {
-        this._lambdaIntegration = new apigateway.LambdaIntegration(LambdaStack.getDockerImageFunction(this, 'lambda-integration'), {
+        const boo = LambdaStack.getDockerImageFunction(this, 'lambda-integration')
+        this._lambdaIntegration = new apigateway.LambdaIntegration(boo, {
             requestTemplates: {"application/json": '{ "statusCode": "200" }'}
         });
+        new CfnOutput(this, "testFunction", {
+            value: boo.functionArn,
+            exportName: "testFunction",
+        });
+
     }
 
     private generateRootMethod() {
