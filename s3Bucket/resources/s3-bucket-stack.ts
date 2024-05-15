@@ -11,6 +11,7 @@ export class S3BucketLambdaStack extends cdk.Stack {
     }
 
     public generateS3Bucket(bucketName:string) {
+        console.log("in generation")
         new s3.Bucket(this, `s3-bucket-${bucketName}`, {
             bucketName: bucketName,
             publicReadAccess: false,
@@ -29,6 +30,7 @@ export class S3BucketLambdaStack extends cdk.Stack {
             autoDeleteObjects: true, // NOT recommended for production code
 
         });
+        console.log('we are done')
     }
 
 

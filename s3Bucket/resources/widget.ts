@@ -49,10 +49,9 @@ const parseRequest = (lambdaEvent:any)  => {
         return buildResponseBody(500, "Identifier is missing" );
     }
 
-    console.log('about switch')
     switch(lambdaEvent.path) {
         case "/s3-service":
-            console.log('in the s3 service go')
+
             const bucketName = body.params.BucketName
             const s3Stack = new S3BucketLambdaStack(app, 'S3BucketStack', {
                 env: {region: region, account: account}
