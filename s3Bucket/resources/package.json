@@ -2,6 +2,7 @@
   "name": "resources",
   "version": "1.0.0",
   "main": "s3-bucket-stack.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
