@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "es2020",
+    "outDir": ".",
     "moduleResolution": "node",
     "sourceMap": true,
     "pretty": true,
@@ -10,7 +11,7 @@
     "allowJs": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": true,
-    "allowSyntheticDefaultImports": false,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
@@ -25,6 +26,10 @@
     "typeRoots": [
       "./node_modules/@types"
     ]
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
   },
   "exclude": [
     "node_modules",

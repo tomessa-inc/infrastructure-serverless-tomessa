@@ -4,7 +4,7 @@
   "main": "s3-bucket-stack.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +14,7 @@
   "dependencies": {
     "aws-cdk-lib": "^2.140.0",
     "execa": "^9.1.0",
+    "tsc-alias": "^1.8.10",
     "typescript": "^5.4.5"
   },
   "devDependencies": {
