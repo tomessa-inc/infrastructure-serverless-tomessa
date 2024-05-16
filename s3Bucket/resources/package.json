@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
+  "type": "module",
   "license": "ISC",
   "types": "./s3-bucket-stack.d.ts",
   "description": "",
