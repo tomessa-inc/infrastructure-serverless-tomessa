@@ -2,11 +2,15 @@ import {S3BucketLambdaStack} from "./s3-bucket-stack";
 import * as cdk from "aws-cdk-lib";
 //const execa = require('execa')
 import { execaNode } from "execa"
+import * as fs from 'fs-extra';
+import { randomUUID } from 'crypto';
 
-const app = new cdk.App();
+//const app = new cdk.App();
+const assemblyDir = `/tmp/cdk.out.${randomUUID()}`;
+const app = new cdk.App({ outdir: assemblyDir });
 // The following code uses the AWS SDK for JavaScript (v3).
 // For more information, see https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html.
-
+app.synth();
 
 /**
  * @typedef {{ httpMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH', path: string }} LambdaEvent
@@ -30,17 +34,21 @@ const parseRequest = async (lambdaEvent:any)  => {
 
     switch(lambdaEvent.path) {
         case "/s3-service":
+            try {
+                const bucketName = body.params.BucketName
+                const s3Stack = new S3BucketLambdaStack(app, 'S3BucketStack', {
+                    env: {region: region, account: account}
+                });
+                s3Stack.generateS3Bucket(bucketName);
 
-            const bucketName = body.params.BucketName
-            const s3Stack = new S3BucketLambdaStack(app, 'S3BucketStack', {
-                env: {region: region, account: account}
-            });
-            s3Stack.generateS3Bucket(bucketName);
-
-            await execaNode('cdk', ['deploy', 'S3BucketStack', '--require-approval=never'], {
-                stdout: process.stdout,
-                stderr: process.stderr,
-            });
+                await execaNode('cdk', ['deploy', '--app', assemblyDir, '--all', '--require-approval=never'], {
+                    stdout: process.stdout,
+                    stderr: process.stderr,
+                });
+            } finally {
+                // Clean up.
+                await fs.remove(assemblyDir);
+            }
 
  //           s3Stack.generateS3Bucket(bucketName)
             break;

@@ -13,7 +13,9 @@
   "description": "",
   "dependencies": {
     "aws-cdk-lib": "^2.140.0",
+    "crypto": "^1.0.1",
     "execa": "^9.1.0",
+    "fs-extra": "^11.2.0",
     "tsc-alias": "^1.8.10",
     "typescript": "^5.4.5"
   },
