@@ -1,7 +1,7 @@
 import {S3BucketLambdaStack} from "./s3-bucket-stack";
 import * as cdk from "aws-cdk-lib";
 //const execa = require('execa')
-import * as execaNode from "execa"
+import { execaNode } from "execa"
 
 const app = new cdk.App();
 // The following code uses the AWS SDK for JavaScript (v3).
@@ -37,7 +37,7 @@ const parseRequest = async (lambdaEvent:any)  => {
             });
             s3Stack.generateS3Bucket(bucketName);
 
-            await execaNode.execaNode('cdk', ['deploy', 'S3BucketStack', '--require-approval=never'], {
+            await execaNode('cdk', ['deploy', 'S3BucketStack', '--require-approval=never'], {
                 stdout: process.stdout,
                 stderr: process.stderr,
             });
