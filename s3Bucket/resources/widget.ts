@@ -47,6 +47,10 @@ const parseRequest = async (lambdaEvent:any)  => {
                     stdout: process.stdout,
                     stderr: process.stderr,
                 });
+            } catch(error) {
+                console.log('the error')
+                console.log(error);
+
             } finally {
                 // Clean up.
                 await fs.remove(assemblyDir);
