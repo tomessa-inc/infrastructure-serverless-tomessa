@@ -2,10 +2,10 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "es2020",
-    "outDir": ".",
     "moduleResolution": "node",
     "sourceMap": true,
     "pretty": true,
+    "outDir": ".",
     "removeComments": true,
     "noEmitOnError": true,
     "allowJs": true,
