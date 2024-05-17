@@ -35,21 +35,8 @@ export class LambdaStack extends cdk.Stack {
             role: IAMRoleStack.getLambdaRole(this, 'lambda-bucket'),
             functionName: "lambda-wrapper-function-aws-cdk",
             architecture: Architecture.X86_64,
-            layers: [
-                // Adding the above Layer to our Lambda
-                layer
-            ]
         });
     }
-
-    private generateLayer() {
-        layer = new LayerVersion(this, "layer_cdk", {
-            compatibleRuntimes: [ Runtime.NODEJS_20_X ],
-            compatibleArchitectures: [ Architecture.X86_64 ],
-            code: Code.fromAsset('layer-cdk')
-        });
-    }
-
 
     private generateOutputs() {
         new CfnOutput(this, "dockerImageFunctionArn", {
