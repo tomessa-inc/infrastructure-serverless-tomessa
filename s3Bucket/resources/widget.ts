@@ -32,9 +32,11 @@ const parseRequest = async (lambdaEvent:any)  => {
         return buildResponseBody(500, "Identifier is missing" );
     }
 
+    console.log('about to start')
     switch(lambdaEvent.path) {
         case "/s3-service":
             try {
+                console.log('intry ')
                 const bucketName = body.params.BucketName
                 const s3Stack = new S3BucketLambdaStack(app, 'S3BucketStack', {
                     env: {region: region, account: account}
