@@ -5,12 +5,12 @@ import { execaNode } from "execa"
 import * as fs from 'fs-extra';
 import { randomUUID } from 'crypto';
 
-//const app = new cdk.App();
-const assemblyDir = `/tmp/cdk.out.${randomUUID()}`;
-const app = new cdk.App({ outdir: assemblyDir });
+const app = new cdk.App();
+//const assemblyDir = `/tmp/cdk.out.${randomUUID()}`;
+//const app = new cdk.App({ outdir: assemblyDir });
 // The following code uses the AWS SDK for JavaScript (v3).
 // For more information, see https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html.
-app.synth();
+//app.synth();
 
 /**
  * @typedef {{ httpMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH', path: string }} LambdaEvent
@@ -43,7 +43,7 @@ const parseRequest = async (lambdaEvent:any)  => {
                 });
                 s3Stack.generateS3Bucket(bucketName);
 
-                await execaNode('cdk', ['deploy', '--app', assemblyDir, '--all', '--require-approval=never'], {
+                await execaNode('cdk', ['deploy', 'S3BucketStack', '--require-approval=never'], {
                     stdout: process.stdout,
                     stderr: process.stderr,
                 });
@@ -53,7 +53,7 @@ const parseRequest = async (lambdaEvent:any)  => {
 
             } finally {
                 // Clean up.
-                await fs.remove(assemblyDir);
+            //    await fs.remove(assemblyDir);
             }
 
  //           s3Stack.generateS3Bucket(bucketName)
