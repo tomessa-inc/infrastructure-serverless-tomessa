@@ -6,9 +6,11 @@ import { Architecture, Code, LayerVersion, Runtime } from 'aws-cdk-lib/aws-lambd
 import {CfnOutput} from "aws-cdk-lib";
 const dockerImageFunctionArn = cdk.Fn.importValue("dockerImageFunctionArn");
 
+let layer:any;
 
 export class LambdaStack extends cdk.Stack {
     private _dockerImageFunction: cdk.aws_lambda.DockerImageFunction;
+    private _layer = cdk.aws_lambda.LayerVersion;
 
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
@@ -32,7 +34,19 @@ export class LambdaStack extends cdk.Stack {
             }),
             role: IAMRoleStack.getLambdaRole(this, 'lambda-bucket'),
             functionName: "lambda-wrapper-function-aws-cdk",
-            architecture: Architecture.X86_64
+            architecture: Architecture.X86_64,
+            layers: [
+                // Adding the above Layer to our Lambda
+                layer
+            ]
+        });
+    }
+
+    private generateLayer() {
+        layer = new LayerVersion(this, "layer_cdk", {
+            compatibleRuntimes: [ Runtime.NODEJS_20_X ],
+            compatibleArchitectures: [ Architecture.X86_64 ],
+            code: Code.fromAsset('layer-cdk')
         });
     }
 

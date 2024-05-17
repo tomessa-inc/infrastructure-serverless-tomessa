@@ -7,6 +7,7 @@ COPY . ${LAMBDA_TASK_ROOT}/
 RUN ls -al
 RUN cat /lambda-entrypoint.sh
 RUN npm install aws-cdk-lib
+RUN npm install -g aws-cdk
 #RUN yum install git-lfs
 
 #RUN npm installnvm

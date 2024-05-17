@@ -32,9 +32,9 @@ export class S3BucketLambdaStack extends cdk.Stack {
 
         });
 
-        console.log("the check")
-        console.log(check);
-        console.log('we are done')
+       // console.log("the check")
+     //   console.log(check);
+     //   console.log('we are done')
     }
 
 
